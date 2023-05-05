@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "195361346738",
+    "project_id": "sekoolahid-6d534",
+    "storage_bucket": "sekoolahid-6d534.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195361346738:android:efd7bc6223e124f69625ab",
+        "android_client_info": {
+          "package_name": "com.sekoolah.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "195361346738-4tbvqf9u8vi376gqlq2jiv7rva7aom7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnfg2zrTv8UsDOnooacdq6yUp-1zcCq0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "195361346738-4tbvqf9u8vi376gqlq2jiv7rva7aom7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

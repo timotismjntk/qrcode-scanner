@@ -1,0 +1,75 @@
+diff --git a/node_modules/react-native-tab-view-header/index.js b/node_modules/react-native-tab-view-header/index.js
+index 8f72211..13b3b83 100644
+--- a/node_modules/react-native-tab-view-header/index.js
++++ b/node_modules/react-native-tab-view-header/index.js
+@@ -3,7 +3,8 @@ import { Dimensions, PanResponder, StyleSheet, Text, Animated, Platform, View }
+ import { TabBar, TabView } from "react-native-tab-view";
+ 
+ const WINDOW_WIDTH = Dimensions.get('window').width;
+-const TabBarHeight = 40;
++const WINDOW_HEIGHT = Dimensions.get('window').height;
++const TabBarHeight = 50;
+ const PullToRefreshDist = 150;
+ 
+ const ExceptionalProps = ['tabSlides', 'onIndexChange', 'onSwipeStart', 'onSwipeEnd', 'renderTabBar', 'renderHeader', 'renderRefreshComponent', 'enableRefresh', 'onRefresh', 'refreshDelay', 'tabIndex', 'children', 'key', 'headerHeight', 'onScrollY', 'tabBarStickyPosition', 'onTabBarStickyChange', 'onHeaderHeightChanged', 'renderLabel', 'tabBarHeight', 'indicatorColor', 'mountingPlaceholder'];
+@@ -54,7 +55,22 @@ const CollapsibleTabViewHeader = forwardRef((props, ref) => {
+             }
+         }
+         emittingTabIndex.current = false;
+-    }, [tabIndex, selectedIndex]);
++    }, [tabIndex, selectedIndex, ref, scrollY, headerScrollY]);
++
++    useEffect(() => {
++        if (selectedIndex === tabIndex) {
++            Animated.timing(scrollY, {
++                toValue: 0,
++                duration: 100,
++                useNativeDriver: false,
++            }).start();
++            Animated.timing(headerScrollY, {
++                toValue: 0,
++                duration: 200,
++                useNativeDriver: false,
++            }).start();
++        }
++    }, [selectedIndex, tabIndex]);
+ 
+     const headerPanResponder = useRef(
+         PanResponder.create({
+@@ -263,7 +279,7 @@ const CollapsibleTabViewHeader = forwardRef((props, ref) => {
+                     Data.WrapperProps?.ref?.(ref);
+                 }}
+                 scrollEventThrottle={16}
+-                contentContainerStyle={{ paddingTop: headerHeight + tabBarHeight }}
++                contentContainerStyle={{ paddingTop: headerHeight + tabBarHeight, minHeight:  WINDOW_HEIGHT, paddingBottom: '10%'}}
+                 renderItem={(props) =>
+                     props.index === 0 ?
+                         <View>
+@@ -339,6 +355,9 @@ const CollapsibleTabViewHeader = forwardRef((props, ref) => {
+                         onTabPress={({ route, preventDefault }) => {
+                             if (isListGliding.current) preventDefault();
+                         }}
++                        scrollEnabled
++                        tabStyle={{width: 'auto'}}
++                        gap={10}
+                         renderLabel={renderLabel || renderLabelText}
+                         {...(renderTabBar ? undefined : {
+                             style: styles.tab,
+@@ -408,7 +427,7 @@ const CollapsibleTabViewHeader = forwardRef((props, ref) => {
+ 
+     return (
+         <View style={{ flex: 1 }}>
+-            <View style={{ flex: 1, opacity: hasCalculated ? undefined : 0 }}>
++            <View style={{ flex: 1 }}>
+                 {renderMainView()}
+                 {renderTopHeader()}
+             </View>
+@@ -426,7 +445,7 @@ const styles = StyleSheet.create({
+         elevation: 0,
+         shadowOpacity: 0,
+         backgroundColor: 'white',
+-        height: TabBarHeight
++        height: TabBarHeight,
+     },
+     indicator: { backgroundColor: '#222' },
+ });
